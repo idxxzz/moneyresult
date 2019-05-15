@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tabulator-基于jQuery UI的实用表格插件|DEMO_jQuery之家-自由分享jQuery、html5、css3的插件库</title>
+	<script src="__PUBLIC__/static/js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/static/js/jquery-ui-11.4/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+	<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__/static/css/default.css">
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
+	<script type="text/javascript" src="__PUBLIC__/static/js/tabulator.js"></script>
+	<style type="text/css">
+	body{
+		padding:20px 40px;
+		font-family: 'Montserrat', sans-serif !important;
+	}
+
+	section:first-of-type header{
+		font-size: 50px;
+	}
+
+	section{
+		margin-bottom:20px;
+	}
+
+	ul>li{
+		margin-bottom:2px;
+	}
+
+	button, select{
+		margin-right:20px;
+	}
+
+	input{
+		font-family: 'Montserrat', sans-serif !important;
+
+	}
+
+	</style>
+	<script type="text/javascript">
+	//sample data to be used in all tabulators
+	var tabledata ={$result}
+	</script>
+	<!--[if IE]>
+		<script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+  <script>
+  $(function() {
+    $( ".datepicker" ).datepicker({dateFormat: "yy/mm/dd"});
+  });
+  </script>
+<p>日期：<input type="text" id="datepicker"></p>
+<img src="__PUBLIC__/static/新增-表格.png" style="width:30px;height:30px"/>
+&nbsp;
+&nbsp;
+&nbsp;
+<img src="__PUBLIC__/static/提交.png" style="width:30px;height:30px"/>
+	<div id="example-table-editable"></div>
+	<script type="text/javascript">
+
+		$("#add-row").click(function(){
+			tabledata.push({id:tabledata.length+1,lstno:tabledata.length+1})
+
+	$("#example-table-editable").tabulator("setData", tabledata);
+			//$("#example-table-editable").tabulator("addRow");
+		})
+
+		$("#del-row").click(function(){
+			tabledata.pop();
+	$("#example-table-editable").tabulator("setData", tabledata);
+		})
+
+		$("#clear").click(function(){
+			$("#example-table-adddel").tabulator("clear");
+		})
+
+		$("#reset").click(function(){
+			$("#example-table-adddel").tabulator("setData", tabledata);
+		})
+
+
+		var removeIcon = function(value, data, cell, row, options){ //plain text value
+			return "<i class='fa fa-remove'></i> "
+		},editIcon = function(value, data, cell, row, options){ //plain text value
+			return "<i class='fa fa-edit'></i> "
+		},dateEdit = function(value, data, cell, row, options){ //plain text value
+			return value;
+		};
+	$("#example-table-editable").tabulator({
+		backgroundColor:"#ccc",
+		borderColor:"#333",
+
+		headerBackgroundColor: "#333",
+		headerTextColor: "#fff",
+
+		rowBackgroundColor:"#666",
+		rowTextColor:"#fff",
+
+		height:"800px",
+		fitColumns:true,
+			addRowPos:"bottom",
+		columns:[
+		{title:"序号", field:"lstno", width:100, editable:true},
+		{title:"日期", formatter:dateEdit,field:"actdate",  sorter:"date", align:"center", width:100, editable:true
+		},
+		{title:"项目名称", field:"pname",width:300, align:"center",editable:true},
+		{title:"明细科目", field:"class1", width:200, align:"center",editable:true},
+		{title:"总账科目", field:"class2",width:200,  align:"center",editable:true},
+		{title:"账户", field:"account",  width:100, align:"center",editable:true},
+		{title:"收入", field:"inmoney",  sorter:"number", align:"right", width:100, align:"center", editable:true},
+		{title:"支出", field:"outmoney", sorter:"number", align:"right", width:100,  align:"center", editable:true},
+		{title:"摘要", field:"info",  align:"center",editable:true},
+{formatter:removeIcon, width:40, align:"center", onClick:function(e, cell, val, row){alert("Printing row data for: " + row.pname)}},
+{formatter:editIcon, width:40, align:"center", onClick:function(e, cell, val, row){alert("Printing row data for: " + row.pname)}},
+		],
+		rowEdit:function(id,data,row){
+			console.log(tabledata);
+		}
+	});
+
+	$("#example-table-editable").tabulator("setData", tabledata);
+
+	$(window).resize(function(){
+		$("#example-table-editable").tabulator("redraw");
+	});
+
+	</script>
+</body>
+</html>
