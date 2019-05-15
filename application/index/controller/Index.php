@@ -8,11 +8,12 @@ class Index extends Controller
     {
 		$result=new MoneyResult();
 	    $result=$result->getAll(1,1000);
+	    $lst=array();
 		foreach($result as $k=>$v){
-		 $result[$k]->lstno=(0*1000)+$k+1;
-		 $result[$k]->actdate=str_replace('-','/',$result[$k]->actdate);
+		 $item=array($v->actdate,$v->pname,$v->class2,$v->class1,$v->account,$v->inmoney,$v->outmoney,$v->info);
+		 $lst[]=$item;
 		}
-        return view('',["result"=>json_encode($result)],["__PUBLIC__"=>"/moneyresult/public"]);
-    }
 
+        return view('',["result"=>json_encode($lst)],["__PUBLIC__"=>"/public"]);
+    }
 }
